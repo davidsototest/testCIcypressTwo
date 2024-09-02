@@ -1,1 +1,55 @@
-name: test varios
+name: Test cypress
+
+on: [push]
+
+jobs:
+  frontend_tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+    #   - name: Set up Node.js
+    #     uses: actions/setup-node@v3
+    #     with:
+    #       node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+    #   - name: Build project
+    #     run: npm run build
+
+    #   - name: Start application
+    #     run: npm start &
+    #     env:
+    #       NODE_ENV: production
+
+    #   - name: Wait for the application to be ready
+    #     run: npx wait-on http://localhost:3000
+
+      - name: Run Frontend Tests
+        run: npx cypress run --spec "cypress/e2e/frontend/*.cy.ts" --browser ${{ matrix.browser }}
+
+  endpoint_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: run json server
+        run: npm run run:server
+
+      - name: Wait for the application json server to be ready
+        run: npx wait-on http://localhost:3001
+
+      - name: Run Endpoint Tests
+        run: npx cypress run --spec "cypress/e2e/backend/*.cy.ts" --browser chrome
+
