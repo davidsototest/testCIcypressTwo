@@ -1,0 +1,35 @@
+# Node modules
+node_modules/
+
+# Logs
+*.log
+
+# Cypress environment
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# IDE or editor specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Operating system specific files
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# Local environment variables
+.env
+.env.*
