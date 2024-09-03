@@ -37,6 +37,7 @@ jobs:
 
   endpoint_tests:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -57,4 +58,18 @@ jobs:
 
       - name: Run Endpoint Tests
         run: npx cypress run --spec "cypress/e2e/backend/*.cy.ts" --browser chrome
+
+      - name: Notify Slack on Success
+        if: success()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"✅ Cypress endpoint tests passed successfully!"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify Slack on Failure
+        if: failure()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"❌ Cypress endpoint tests failed. Please check the logs for details."}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
 
