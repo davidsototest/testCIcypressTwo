@@ -64,11 +64,10 @@ jobs:
         uses: rtCamp/action-slack-notify@v2.1.2
         with:
           status: ${{ job.status }}
-          # config: .github/config/slack.yml
         env:
           SLACK_CHANNEL: automation-cypress-github
           SLACK_COLOR: '#00ff15'
-          SLACK_ICON: https://user-images.githubusercontent.com/4115/54997488-d1f94e00-4ff1-11e9-897f-a35ab90f525f.png
+          SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
           SLACK_MESSAGE: 'Result test'
           SLACK_TITLE: ✅ STATUS TEST
           SLACK_USERNAME: 👾 David-Bot
@@ -79,29 +78,12 @@ jobs:
         uses: rtCamp/action-slack-notify@v2.1.2
         with:
           status: failure
-          # config: .github/config/slack.yml
         env:
           SLACK_CHANNEL: automation-cypress-github
           SLACK_COLOR: '#ff1100'
-          SLACK_ICON: https://user-images.githubusercontent.com/4115/54997488-d1f94e00-4ff1-11e9-897f-a35ab90f525f.png
-          SLACK_MESSAGE: 'Tests failed. Error message: ${{github.workflow_sha}}}'
+          SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
+          SLACK_MESSAGE: 'Failed tests, notify QA'
           SLACK_TITLE: 🚨 STATUS TEST
-          SLACK_USERNAME: 👾 David-Bot
+          SLACK_USERNAME: David-Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-
-
-
-
-      #   run: |
-      #     curl -X POST -H 'Content-type: application/json' \
-      #     --data '{"text":"✅ Cypress endpoint tests passed successfully!"}' \
-      #     ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      # - name: Notify Slack on Failure
-      #   if: failure()
-      #   run: |
-      #     curl -X POST -H 'Content-type: application/json' \
-      #     --data '{"text":"❌ Cypress endpoint tests failed. Please check the logs for details."}' \
-      #     ${{ secrets.SLACK_WEBHOOK_URL }}
 
