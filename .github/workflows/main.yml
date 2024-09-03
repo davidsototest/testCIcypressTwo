@@ -64,7 +64,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2.1.2
         with:
           status: ${{ job.status }}
-          # config: .github/config/slack.yml
+          config: .github/config/slack.yml
         env:
           SLACK_CHANNEL: automation-cypress-github
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
