@@ -8,7 +8,7 @@ export default defineConfig({
     },
   },
   env: {
-    // apiUrl: "http://localhost:3000",
+    apiUrl: "https://demoqa.com/",
     mobileViewportWidthBreakpoint: 414,
     coverage: false,
     // codeCoverage: {
