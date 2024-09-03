@@ -60,16 +60,20 @@ jobs:
         run: npx cypress run --spec "cypress/e2e/backend/*.cy.ts" --browser chrome
 
       - name: Notify Slack on Success
-        if: success()
-        run: |
-          curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"✅ Cypress endpoint tests passed successfully!"}' \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: success() # Notifica siempre, independientemente del resultado del trabajo
+        uses: rtCamp/action-slack-notify@v2.1.2
+        with:
+          status: ${{ job.status }}
+          config: .github/config/slack.yml
+      #   run: |
+      #     curl -X POST -H 'Content-type: application/json' \
+      #     --data '{"text":"✅ Cypress endpoint tests passed successfully!"}' \
+      #     ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      - name: Notify Slack on Failure
-        if: failure()
-        run: |
-          curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"❌ Cypress endpoint tests failed. Please check the logs for details."}' \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+      # - name: Notify Slack on Failure
+      #   if: failure()
+      #   run: |
+      #     curl -X POST -H 'Content-type: application/json' \
+      #     --data '{"text":"❌ Cypress endpoint tests failed. Please check the logs for details."}' \
+      #     ${{ secrets.SLACK_WEBHOOK_URL }}
 
