@@ -84,7 +84,7 @@ jobs:
           SLACK_CHANNEL: automation-cypress-github
           SLACK_COLOR: '#ff1100'
           SLACK_ICON: https://user-images.githubusercontent.com/4115/54997488-d1f94e00-4ff1-11e9-897f-a35ab90f525f.png
-          SLACK_MESSAGE: 'Tests failed. Error message: ${{steps}}'
+          SLACK_MESSAGE: 'Tests failed. Error message: ${{github.workflow_sha}}}'
           SLACK_TITLE: 🚨 STATUS TEST
           SLACK_USERNAME: 👾 David-Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
