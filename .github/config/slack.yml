@@ -1,5 +1,5 @@
-username: GitHub-CI
-# icon_url: https://octodex.github.com/images/mona-the-rivetertocat.png
+username: David-Bot
+icon_url: https://octodex.github.com/images/mona-the-rivetertocat.png
 
 pretext: Triggered via {{eventName}} by {{actor}} {{or action "action"}} {{ref}} `{{diffRef}}`
 title: GitHub Actions
@@ -49,9 +49,9 @@ footer: >-
   <{{repositoryUrl}}|{{repositoryName}}> {{workflow}} #{{runNumber}}
 
 colors:
-  success: '#5DADE2'
+  success: '#00e04b'
   failure: '#884EA0'
-  cancelled: '#A569BD'
+  cancelled: '#ec5f00'
   default: '#7D3C98'
 
 icons:
