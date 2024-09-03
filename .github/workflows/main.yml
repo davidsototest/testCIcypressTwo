@@ -59,20 +59,40 @@ jobs:
       - name: Run Endpoint Tests
         run: npx cypress run --spec "cypress/e2e/backend/*.cy.ts" --browser chrome
 
-      - name: Slack Notification
-        if: success() # Notifica siempre, independientemente del resultado del trabajo
+      - name: Slack Notification - Success
+        if: success() #si pasa todo
         uses: rtCamp/action-slack-notify@v2.1.2
         with:
           status: ${{ job.status }}
-          config: .github/config/slack.yml
+          # config: .github/config/slack.yml
         env:
           SLACK_CHANNEL: automation-cypress-github
-          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_COLOR: '#00ff15'
           SLACK_ICON: https://user-images.githubusercontent.com/4115/54997488-d1f94e00-4ff1-11e9-897f-a35ab90f525f.png
           SLACK_MESSAGE: 'Result test'
           SLACK_TITLE: 😎 STATUS TEST
           SLACK_USERNAME: 👾 David-Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      
+      - name: Slack Notification - Failure
+        if: failure() # si falla
+        uses: rtCamp/action-slack-notify@v2.1.2
+        with:
+          status: failure
+          # config: .github/config/slack.yml
+        env:
+          SLACK_CHANNEL: automation-cypress-github
+          SLACK_COLOR: '#ff1100'
+          SLACK_ICON: https://user-images.githubusercontent.com/4115/54997488-d1f94e00-4ff1-11e9-897f-a35ab90f525f.png
+          SLACK_MESSAGE: 'Tests failed. Error message: ${{ steps.endpoint_tests.outcome }}'
+          SLACK_TITLE: 😱 STATUS TEST
+          SLACK_USERNAME: 👾 David-Bot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+
+
+
+
       #   run: |
       #     curl -X POST -H 'Content-type: application/json' \
       #     --data '{"text":"✅ Cypress endpoint tests passed successfully!"}' \
