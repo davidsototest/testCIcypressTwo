@@ -1,4 +1,4 @@
-name: Test cypress
+name: Test cypress end to end and backend 👩‍💻
 
 on: 
   push:
@@ -9,37 +9,50 @@ on:
   workflow_dispatch:
 
 jobs:
-#   frontend_tests:
-#     runs-on: ubuntu-latest
-#     strategy:
-#       fail-fast: false
-#       matrix:
-#         browser: [chrome, firefox]
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v2
+  frontend_tests:
+    runs-on:  ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
 
-    #   - name: Set up Node.js
-    #     uses: actions/setup-node@v3
-    #     with:
-    #       node-version: '16'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    #   - name: Install dependencies
-    #     run: npm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
 
-    #   - name: Build project
-    #     run: npm run build
+      - name: Install dependencies
+        run: npm install
 
-    #   - name: Start application
-    #     run: npm start &
-    #     env:
-    #       NODE_ENV: production
+      - name: Run end to end Tests
+        run: npx cypress run --spec "cypress/e2e/frontend/*.cy.ts" --browser chrome
 
-    #   - name: Wait for the application to be ready
-    #     run: npx wait-on http://localhost:3000
-
-    #   - name: Run Frontend Tests
-    #     run: npx cypress run --spec "cypress/e2e/frontend/*.cy.ts" --browser ${{ matrix.browser }}
+      - name: Slack Notification - Success
+        if: success() #si pasa todo
+        uses: rtCamp/action-slack-notify@v2.1.2
+        env:
+          SLACK_CHANNEL: automation-cypress-github
+          SLACK_COLOR: '#00ff15'
+          SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
+          SLACK_MESSAGE: 'Result test END to END on ${{ matrix.os }}'
+          SLACK_TITLE: ✅ STATUS TEST
+          SLACK_USERNAME: 👾 David-Bot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      
+      - name: Slack Notification - Failure
+        if: failure() # si falla
+        uses: rtCamp/action-slack-notify@v2.1.2
+        env:
+          SLACK_CHANNEL: automation-cypress-github
+          SLACK_COLOR: '#ff1100'
+          SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
+          SLACK_MESSAGE: 'Failed tests END to END on ${{ matrix.os }}, notify QA'
+          SLACK_TITLE: 🚨 STATUS TEST
+          SLACK_USERNAME: David-Bot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   endpoint_tests:
     runs-on: ubuntu-latest
@@ -71,13 +84,11 @@ jobs:
       - name: Slack Notification - Success
         if: success() #si pasa todo
         uses: rtCamp/action-slack-notify@v2.1.2
-        # with:
-        #   status: ${{ job.status }}
         env:
           SLACK_CHANNEL: automation-cypress-github
           SLACK_COLOR: '#00ff15'
           SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
-          SLACK_MESSAGE: 'Result test on ubuntu-latest'
+          SLACK_MESSAGE: 'Result test APIs, on ubuntu-latest 🐧'
           SLACK_TITLE: ✅ STATUS TEST
           SLACK_USERNAME: 👾 David-Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -85,13 +96,11 @@ jobs:
       - name: Slack Notification - Failure
         if: failure() # si falla
         uses: rtCamp/action-slack-notify@v2.1.2
-        # with:
-        #   status: failure
         env:
           SLACK_CHANNEL: automation-cypress-github
           SLACK_COLOR: '#ff1100'
           SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
-          SLACK_MESSAGE: 'Failed tests on ubuntu-latest, notify QA'
+          SLACK_MESSAGE: 'Failed tests APIs, on ubuntu-latest 🐧, notify QA'
           SLACK_TITLE: 🚨 STATUS TEST
           SLACK_USERNAME: David-Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
