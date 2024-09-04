@@ -17,7 +17,7 @@ describe("localhost:3000/users", () => {
 
   it("1. validacion del estado de la respuesta  - DOS", () => {
     cy.request("users").then((resp) => {
-      expect(resp.status).to.be.eq(200);
+      expect(resp.status).to.be.eq(200); 
     });
   });
 
