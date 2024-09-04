@@ -98,7 +98,7 @@ jobs:
           # SLACK_MESSAGE: 'Result test APIs, on ubuntu-latest 🐧'
           # SLACK_TITLE: ✅ STATUS TEST
           # SLACK_USERNAME: 👾 David-Bot
-          # SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
       
       - name: Slack Notification - Failure
         if: failure() # si falla
