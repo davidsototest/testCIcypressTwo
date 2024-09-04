@@ -91,13 +91,14 @@ jobs:
         if: success() #si pasa todo
         uses: rtCamp/action-slack-notify@v2.1.2
         env:
-          SLACK_CHANNEL: automation-cypress-github
-          SLACK_COLOR: '#00ff15'
-          SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
-          SLACK_MESSAGE: 'Result test APIs, on ubuntu-latest 🐧'
-          SLACK_TITLE: ✅ STATUS TEST
-          SLACK_USERNAME: 👾 David-Bot
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_MESSAGE_ON_SUCCESS: success
+          # SLACK_CHANNEL: automation-cypress-github
+          # SLACK_COLOR: '#00ff15'
+          # SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
+          # SLACK_MESSAGE: 'Result test APIs, on ubuntu-latest 🐧'
+          # SLACK_TITLE: ✅ STATUS TEST
+          # SLACK_USERNAME: 👾 David-Bot
+          # SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
       
       - name: Slack Notification - Failure
         if: failure() # si falla
