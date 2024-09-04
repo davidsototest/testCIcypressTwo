@@ -67,10 +67,10 @@ jobs:
 
       - name: Start JSON server
         run: |
-          if [ $RUNNER_OS == 'Windows' ]; then
-            start /b npm run run:server
-          else
+          if [ $RUNNER_OS == 'Linux' ]; then
             npm run run:server &
+          else
+            pwsh -Command "Start-Process npm -ArgumentList 'run run:server' -NoNewWindow -PassThru | Out-Null"
           fi
 
       - name: Wait for the application json server to be ready
@@ -88,7 +88,7 @@ jobs:
           SLACK_CHANNEL: automation-cypress-github
           SLACK_COLOR: '#00ff15'
           SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
-          SLACK_MESSAGE: 'Result test'
+          SLACK_MESSAGE: 'Result test on ${{ matrix.os }}'
           SLACK_TITLE: ✅ STATUS TEST
           SLACK_USERNAME: 👾 David-Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -102,7 +102,7 @@ jobs:
           SLACK_CHANNEL: automation-cypress-github
           SLACK_COLOR: '#ff1100'
           SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
-          SLACK_MESSAGE: 'Failed tests, notify QA'
+          SLACK_MESSAGE: 'Failed tests on ${{ matrix.os }}, notify QA'
           SLACK_TITLE: 🚨 STATUS TEST
           SLACK_USERNAME: David-Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
