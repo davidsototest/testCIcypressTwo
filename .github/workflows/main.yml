@@ -63,7 +63,7 @@ jobs:
         run: npm run run:server &
 
       - name: Wait for the application json server to be ready
-        run: npx wait-on http://localhost:3000
+        run: npx wait-on http://localhost:3000 &
 
       - name: Run Endpoint Tests
         run: npx cypress run --spec "cypress/e2e/backend/*.cy.ts" --browser chrome

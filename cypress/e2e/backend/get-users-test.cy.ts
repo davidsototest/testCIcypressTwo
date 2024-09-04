@@ -10,6 +10,11 @@
 //10. validacion de seguridad 
 
 describe("localhost:3000/users", () => {
+
+  beforeEach(() => {
+    cy.visit(Cypress.env('apiUrlBack'))
+  })
+
   //1. validacion del estado de la respuesta
   it("1. validacion del estado de la respuesta  - UNO", () => {
     cy.request("users").its("status").should("equal", 200);
