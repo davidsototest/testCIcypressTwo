@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "name": "alberto9",
+      "name": "alberto5",
       "id": "1"
     },
     {
@@ -258,6 +258,12 @@
       "id": "edd5",
       "name": "alberto2",
       "email": "alberto2@gmail.com",
+      "status": "active"
+    },
+    {
+      "id": "92c1",
+      "name": "alberto6",
+      "email": "alberto6@gmail.com",
       "status": "active"
     }
   ]

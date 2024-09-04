@@ -17,7 +17,7 @@ describe("localhost:3000/users", () => {
 
   //1. validacion del estado de la respuesta
   it("1. validacion del estado de la respuesta  - UNO", () => {
-    cy.request("users").its("status").should("equal", 200);
+    cy.request(Cypress.env("apiUrlBack") + "/users").its("status").should("equal", 200);
   });
 
   it("1. validacion del estado de la respuesta  - DOS", () => {
