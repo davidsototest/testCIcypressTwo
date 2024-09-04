@@ -42,10 +42,7 @@ jobs:
     #     run: npx cypress run --spec "cypress/e2e/frontend/*.cy.ts" --browser ${{ matrix.browser }}
 
   endpoint_tests:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -62,20 +59,11 @@ jobs:
       - name: Install wait-on globally #instalar la espera global asi windows no falla.
         run: npm install -g wait-on
 
-      # - name: Start JSON server
-      #   run: npm run run:server &
-
-      # - name: Wait for the application json server to be ready
-      #   run: npx wait-on http://localhost:3000 &
-
-      - name: Start JSON server (Linux)
-        if: runner.os == 'Linux'
+      - name: Start JSON server
         run: npm run run:server &
 
-      - name: Start JSON server (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: Start-Process npm -ArgumentList 'run run:server' -NoNewWindow -PassThru | Out-Null
+      - name: Wait for the application json server to be ready
+        run: npx wait-on http://localhost:3000 
 
       - name: Run Endpoint Tests
         run: npx cypress run --spec "cypress/e2e/backend/*.cy.ts" --browser chrome
@@ -83,13 +71,13 @@ jobs:
       - name: Slack Notification - Success
         if: success() #si pasa todo
         uses: rtCamp/action-slack-notify@v2.1.2
-        with:
-          status: ${{ job.status }}
+        # with:
+        #   status: ${{ job.status }}
         env:
           SLACK_CHANNEL: automation-cypress-github
           SLACK_COLOR: '#00ff15'
           SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
-          SLACK_MESSAGE: 'Result test on ${{ matrix.os }}'
+          SLACK_MESSAGE: 'Result test on ubuntu-latest'
           SLACK_TITLE: ✅ STATUS TEST
           SLACK_USERNAME: 👾 David-Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -97,13 +85,13 @@ jobs:
       - name: Slack Notification - Failure
         if: failure() # si falla
         uses: rtCamp/action-slack-notify@v2.1.2
-        with:
-          status: failure
+        # with:
+        #   status: failure
         env:
           SLACK_CHANNEL: automation-cypress-github
           SLACK_COLOR: '#ff1100'
           SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
-          SLACK_MESSAGE: 'Failed tests on ${{ matrix.os }}, notify QA'
+          SLACK_MESSAGE: 'Failed tests on ubuntu-latest, notify QA'
           SLACK_TITLE: 🚨 STATUS TEST
           SLACK_USERNAME: David-Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
