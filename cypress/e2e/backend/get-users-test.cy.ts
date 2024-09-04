@@ -11,9 +11,9 @@
 
 describe("localhost:3000/users", () => {
 
-  beforeEach(() => {
-    cy.visit(Cypress.env('apiUrlBack'))
-  })
+  // beforeEach(() => {
+  //   cy.visit(Cypress.env('apiUrlBack'))
+  // })
 
   //1. validacion del estado de la respuesta
   it("1. validacion del estado de la respuesta  - UNO", () => {
@@ -21,29 +21,29 @@ describe("localhost:3000/users", () => {
   });
 
   it("1. validacion del estado de la respuesta  - DOS", () => {
-    cy.request("users").then((resp) => {
+    cy.request(Cypress.env("apiUrlBack") + "/users").then((resp) => {
       expect(resp.status).to.be.eq(200); 
     });
   });
 
   //2. validacion del tipo de contenido de la respuesta
   it("2. validacion del tipo de contenido de la respuesta - UNO", () => {
-    cy.request("users")
+    cy.request(Cypress.env("apiUrlBack") + "/users")
       .its("headers")
       .its("content-type")
       .should("include", "application/json");
   });
 
   it("2. validacion del tipo de contenido de la respuesta - DOS", () => {
-    cy.request("users").then((resp) => {
+    cy.request(Cypress.env("apiUrlBack") + "/users").then((resp) => {
       expect(resp.headers["content-type"]).to.be.equal("application/json");
     });
   });
 
   //3. validacion de la estrctura de la respuesta
   it("3. validacion de la estrctura de la respuesta - UNO", () => {
-    cy.request("users/1")
-      .its("body")
+    cy.request(Cypress.env("apiUrlBack") + "/users/3")
+      .its("body")      
       .should("include.all.keys", ["id", "name", "email", "status"]);
 
     //no funciona esta forma:
@@ -56,7 +56,7 @@ describe("localhost:3000/users", () => {
   });
 
   it("3. validacion de la estrctura de la respuesta - DOS", () => {
-    cy.request("users/1")
+    cy.request(Cypress.env("apiUrlBack") + "/users/3")
       .its("body")
       .should((body) => {
         expect(body).to.have.property("id");
@@ -68,9 +68,9 @@ describe("localhost:3000/users", () => {
 
   //4. validacion de datos especificos de la respuesta
   it("4. validacion de datos especificos de la respuesta - UNO", () => {
-    cy.request("users/1")
+    cy.request(Cypress.env("apiUrlBack") + "/users/3")
       .its("body")
-      .should("have.property", "name", "John Doe");
+      .should("have.property", "name", "David Soto");
     // .and("have.property", "email", "johndoe@example.com")
     // .and("have.property", "status", "active")
     // .and("have.property", "id", 1);
@@ -79,12 +79,12 @@ describe("localhost:3000/users", () => {
   });
 
   it("4. validacion de datos especificos de la respuesta - DOS", () => {
-    cy.request("users/1")
+    cy.request(Cypress.env("apiUrlBack") + "/users/3")
       .its("body")
       .should((body) => {
-        expect(body.id).to.be.eq("1");
-        expect(body.name).to.be.eql("John Doe");
-        expect(body.email).to.be.equal("johndoe@example.com");
+        expect(body.id).to.be.eq("3");
+        expect(body.name).to.be.eql("David Soto");
+        expect(body.email).to.be.equal("davidsoto@example.com");
         expect(body.status).to.be.eq("active");
       });
   });
@@ -92,9 +92,9 @@ describe("localhost:3000/users", () => {
   it("4. validacion de datos especificos de la respuesta - TRES", () => {
     //puedo tomar un json desde la carpeta fixture, o un ts, y comparar el objeto entero con el devueldo por el servicio
     cy.fixture("db.json").then((data) => {
-      const userWithId1 = data.users.find((user) => user.id === "1");
+      const userWithId1 = data.users.find((user) => user.id === "3");
 
-      cy.request("users/1").its("body").should("deep.equal", userWithId1);
+      cy.request(Cypress.env("apiUrlBack") + "/users/3").its("body").should("deep.equal", userWithId1);
     });
   });
 
@@ -102,9 +102,8 @@ describe("localhost:3000/users", () => {
   it("5. validacion de actualizacion de resursos - UNO", () => {
     const randomNumber = Math.floor(Math.random() * 10) + 1;
     const updatedName = `alberto${randomNumber}`;
-
     cy.request({
-      url: "users/2",
+      url: `${Cypress.env("apiUrlBack")}/users/1`,
       method: "PUT",
       body: {
         name: updatedName,
@@ -124,7 +123,7 @@ describe("localhost:3000/users", () => {
     let newId = "";
 
     cy.request({
-      url: "users",
+      url: `${Cypress.env("apiUrlBack")}/users`,
       method: "POST",
       body: {
         name: newName,
@@ -140,7 +139,7 @@ describe("localhost:3000/users", () => {
         newId = body.id;
       })
       .then(() => {
-        const url = `users/${newId}`;
+        const url = `${Cypress.env("apiUrlBack")}/users/${newId}`;
 
         cy.request(url).then((resp) => {
           expect(resp.status).to.eq(200);
@@ -158,7 +157,7 @@ describe("localhost:3000/users", () => {
     const newStatus = randomNumber % 2 === 0 ? "active" : "inactive";
 
     cy.request({
-      url: "users",
+      url: `${Cypress.env("apiUrlBack")}/users`,
       method: "POST",
       body: {
         name: newName,
@@ -177,7 +176,7 @@ describe("localhost:3000/users", () => {
         cy.wrap(body.id).as("newUserId");
       })
       .then(function () {
-        const url = `users/${this.newUserId}`;
+        const url = `${Cypress.env("apiUrlBack")}/users/${this.newUserId}`;
 
         cy.request(url).then((resp) => {
           expect(resp.status).to.eq(200);
@@ -192,17 +191,17 @@ describe("localhost:3000/users", () => {
 
   //7. validación de eliminación de recursos
   it("7. validación de eliminación de recursos - UNO", () => {
-    cy.request("users").then((resp) => {
+    cy.request(Cypress.env("apiUrlBack") + "/users").then((resp) => {
       expect(resp.status).to.eq(200);
       const lastUserId = resp.body[resp.body.length - 1].id;
 
       cy.request({
-        url: `users/${lastUserId}`,
+        url: `${Cypress.env("apiUrlBack")}/users/${lastUserId}`,
         method: "DELETE",
       }).then((deleteResp) => {
         expect(deleteResp.status).to.eq(200);
 
-        cy.request({ url: `users/${lastUserId}`, failOnStatusCode: false })
+        cy.request({ url: `${Cypress.env("apiUrlBack")}/users/${lastUserId}`, failOnStatusCode: false })
           .its("status")
           .should("eq", 404);
       });
@@ -211,7 +210,7 @@ describe("localhost:3000/users", () => {
 
   //8. validacion de errores
   it("8. validacion de errores - UNO", () => {
-    cy.request({ url: "users/55abc55", failOnStatusCode: false }).then(
+    cy.request({ url: `${Cypress.env("apiUrlBack")}/users/5848asda87`, failOnStatusCode: false }).then(
       (resp) => {
         expect(resp.status).to.be.eq(404);
       }
@@ -219,19 +218,19 @@ describe("localhost:3000/users", () => {
   });
 
   it("8. validacion de errores - DOS", () => {
-    cy.request({ url: "users/55abc55", failOnStatusCode: false })
+    cy.request({ url: `${Cypress.env("apiUrlBack")}/users/5848asda87`, failOnStatusCode: false })
       .its("status")
       .should("eq", 404);
   });
 
   //9. validacion de rendimiento
   it("9. validacion de rendimiento - UNO", () => {
-    cy.request("users").its("duration").should("be.lessThan", 500);
+    cy.request(Cypress.env("apiUrlBack") + "/users").its("duration").should("be.lessThan", 500);
     // medio segundo de tolerancia
   });
 
   it("9. validacion de rendimiento - DOS", () => {
-    cy.request("users").then((resp) => {
+    cy.request(Cypress.env("apiUrlBack") + "/users").then((resp) => {
       expect(resp.duration).to.be.lessThan(500);
     });
   });

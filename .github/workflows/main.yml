@@ -59,11 +59,22 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # - name: Start JSON server
+      #   run: npm run run:server &
+
+      - name: Install wait-on globally #instalar la espera global asi windows no falla.
+        run: npm install -g wait-on
+
       - name: Start JSON server
-        run: npm run run:server &
+        run: |
+          if [ $RUNNER_OS == 'Windows' ]; then
+            start /b npm run run:server
+          else
+            npm run run:server &
+          fi
 
       - name: Wait for the application json server to be ready
-        run: npx wait-on http://localhost:3000 &
+        run: npx wait-on http://localhost:3000
 
       - name: Run Endpoint Tests
         run: npx cypress run --spec "cypress/e2e/backend/*.cy.ts" --browser chrome
