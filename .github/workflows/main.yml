@@ -59,19 +59,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # - name: Start JSON server
-      #   run: npm run run:server &
-
       - name: Install wait-on globally #instalar la espera global asi windows no falla.
         run: npm install -g wait-on
 
       - name: Start JSON server
-        run: |
-          if [ $RUNNER_OS == 'Linux' ]; then
-            npm run run:server &
-          else
-            pwsh -Command "Start-Process npm -ArgumentList 'run run:server' -NoNewWindow -PassThru | Out-Null"
-          fi
+        run: npm run run:server &
 
       - name: Wait for the application json server to be ready
         run: npx wait-on http://localhost:3000
