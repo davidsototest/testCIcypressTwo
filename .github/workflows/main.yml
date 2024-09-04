@@ -27,6 +27,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Chrome
+        run: |
+          Invoke-WebRequest -Uri https://dl.google.com/chrome/install/latest/chrome_installer.exe -OutFile chrome_installer.exe
+          Start-Process -FilePath chrome_installer.exe -ArgumentList '/silent', '/install' -NoNewWindow -Wait
+
       - name: Run end to end Tests
         run: npx cypress run --spec "cypress/e2e/frontend/*.cy.ts" --browser chrome
 
