@@ -36,29 +36,29 @@ jobs:
       - name: Run end to end Tests
         run: npm run allure:run:front
 
-      - name: Slack Notification - Success
-        if: success()
-        uses: rtCamp/action-slack-notify@v2.1.2
-        env:
-          SLACK_CHANNEL: automation-cypress-github
-          SLACK_COLOR: '#00ff15'
-          SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
-          SLACK_MESSAGE: 'Result test END to END on ${{ matrix.os }}'
-          SLACK_TITLE: ✅ STATUS TEST
-          SLACK_USERNAME: 👾 David-Bot
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      # - name: Slack Notification - Success
+      #   if: success()
+      #   uses: rtCamp/action-slack-notify@v2.1.2
+      #   env:
+      #     SLACK_CHANNEL: automation-cypress-github
+      #     SLACK_COLOR: '#00ff15'
+      #     SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
+      #     SLACK_MESSAGE: 'Result test END to END on ${{ matrix.os }}'
+      #     SLACK_TITLE: ✅ STATUS TEST
+      #     SLACK_USERNAME: 👾 David-Bot
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
       
-      - name: Slack Notification - Failure
-        if: failure()
-        uses: rtCamp/action-slack-notify@v2.1.2
-        env:
-          SLACK_CHANNEL: automation-cypress-github
-          SLACK_COLOR: '#ff1100'
-          SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
-          SLACK_MESSAGE: 'Failed tests END to END on ${{ matrix.os }}, notify QA'
-          SLACK_TITLE: 🚨 STATUS TEST
-          SLACK_USERNAME: David-Bot
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      # - name: Slack Notification - Failure
+      #   if: failure()
+      #   uses: rtCamp/action-slack-notify@v2.1.2
+      #   env:
+      #     SLACK_CHANNEL: automation-cypress-github
+      #     SLACK_COLOR: '#ff1100'
+      #     SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
+      #     SLACK_MESSAGE: 'Failed tests END to END on ${{ matrix.os }}, notify QA'
+      #     SLACK_TITLE: 🚨 STATUS TEST
+      #     SLACK_USERNAME: David-Bot
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
       
   endpoint_tests:
     runs-on: ubuntu-latest
