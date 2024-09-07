@@ -33,3 +33,7 @@ coverage/
 # Local environment variables
 .env
 .env.*
+
+# Ignorar reportes y resultados de Allure
+allure-report/
+allure-results/

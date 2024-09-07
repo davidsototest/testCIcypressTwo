@@ -1,12 +1,15 @@
 {
-    "compilerOptions": {
-      "target": "es6",
-      "lib": ["es6", "dom"],
-      "types": ["cypress", "node"],
-      "moduleResolution": "node",
-      "esModuleInterop": true,
-      "skipLibCheck": true
-    },
-    "include": ["cypress/**/*.ts"]
-  }
-  
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["es6", "dom"],
+    "types": ["cypress", "node", "@shelex/cypress-allure-plugin"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+
+    "allowJs": true,
+    "baseUrl": "../node_modules",
+    "noEmit": true
+  },
+  "include": ["cypress/**/*.ts"]
+}

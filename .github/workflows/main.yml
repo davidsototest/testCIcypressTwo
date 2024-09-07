@@ -10,7 +10,7 @@ on:
 
 jobs:
   frontend_tests:
-    runs-on:  ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -27,17 +27,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install Chrome (Windows only) #instala chrome si es windows
+      - name: Install Chrome (Windows only)
         if: runner.os == 'Windows'
         run: |
           Invoke-WebRequest -Uri https://dl.google.com/chrome/install/latest/chrome_installer.exe -OutFile chrome_installer.exe
           Start-Process -FilePath chrome_installer.exe -ArgumentList '/silent', '/install' -NoNewWindow -Wait
 
       - name: Run end to end Tests
-        run: npx cypress run --spec "cypress/e2e/frontend/*.cy.ts" --browser chrome
+        run: npm run allure:run:front
 
       - name: Slack Notification - Success
-        if: success() #si pasa todo
+        if: success()
         uses: rtCamp/action-slack-notify@v2.1.2
         env:
           SLACK_CHANNEL: automation-cypress-github
@@ -49,7 +49,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
       
       - name: Slack Notification - Failure
-        if: failure() # si falla
+        if: failure()
         uses: rtCamp/action-slack-notify@v2.1.2
         env:
           SLACK_CHANNEL: automation-cypress-github
@@ -59,7 +59,7 @@ jobs:
           SLACK_TITLE: 🚨 STATUS TEST
           SLACK_USERNAME: David-Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-
+      
   endpoint_tests:
     runs-on: ubuntu-latest
 
@@ -75,7 +75,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install wait-on globally #instalar la espera global asi windows no falla.
+      - name: Install wait-on globally
         run: npm install -g wait-on
 
       - name: Start JSON server
@@ -85,23 +85,22 @@ jobs:
         run: npx wait-on http://localhost:3000 
 
       - name: Run Endpoint Tests
-        run: npx cypress run --spec "cypress/e2e/backend/*.cy.ts" --browser chrome
+        run: npm run allure:run:back
 
       - name: Slack Notification - Success
-        if: success() #si pasa todo
+        if: success()
         uses: rtCamp/action-slack-notify@v2.1.2
         env:
-          SLACK_MESSAGE_ON_SUCCESS: success
-          # SLACK_CHANNEL: automation-cypress-github
-          # SLACK_COLOR: '#00ff15'
-          # SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
-          # SLACK_MESSAGE: 'Result test APIs, on ubuntu-latest 🐧'
-          # SLACK_TITLE: ✅ STATUS TEST
-          # SLACK_USERNAME: 👾 David-Bot
+          SLACK_CHANNEL: automation-cypress-github
+          SLACK_COLOR: '#00ff15'
+          SLACK_ICON: https://forkast.news/wp-content/uploads/2022/03/NFT-Avatar.png
+          SLACK_MESSAGE: 'Result test APIs, on ubuntu-latest 🐧'
+          SLACK_TITLE: ✅ STATUS TEST
+          SLACK_USERNAME: 👾 David-Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
       
       - name: Slack Notification - Failure
-        if: failure() # si falla
+        if: failure()
         uses: rtCamp/action-slack-notify@v2.1.2
         env:
           SLACK_CHANNEL: automation-cypress-github
@@ -112,3 +111,23 @@ jobs:
           SLACK_USERNAME: David-Bot
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
 
+  generate_allure_report:
+    runs-on: ubuntu-latest
+    needs: [frontend_tests, endpoint_tests] # Espera que las pruebas se completen
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate Allure Report
+        run: npm run allure:report
+
+      # Guardar los resultados de Allure como artefacto
+      - name: Store Allure Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report
