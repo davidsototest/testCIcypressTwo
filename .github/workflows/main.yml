@@ -36,6 +36,7 @@ jobs:
       - name: Run end to end Tests
         run: npm run allure:run:front
 
+        #en Windows no funciona el plugin de SLACK
       # - name: Slack Notification - Success
       #   if: success()
       #   uses: rtCamp/action-slack-notify@v2.1.2

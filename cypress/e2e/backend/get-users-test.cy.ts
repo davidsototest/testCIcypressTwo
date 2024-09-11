@@ -17,7 +17,7 @@ describe("localhost:3000/users", () => {
   //1. validacion del estado de la respuesta
   const stepNameOne = "1. validación del estado de la respuesta - UNO";
   it(stepNameOne, () => {
-    cy.allure().step(stepNameOne, true);
+    cy.allure().step(stepNameOne, true); 
     cy.allure().tag("Web interface");
     cy.allure().tag("Authentication");
 
@@ -52,7 +52,7 @@ describe("localhost:3000/users", () => {
     });
   });
 
-  //3. validacion de la estrctura de la respuesta
+  // 3. validacion de la estrctura de la respuesta
   it("3. validacion de la estrctura de la respuesta - UNO", () => {
     cy.request(Cypress.env("apiUrlBack") + "/users/3")
       .its("body")

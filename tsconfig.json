@@ -11,5 +11,5 @@
     "baseUrl": "../node_modules",
     "noEmit": true
   },
-  "include": ["cypress/**/*.ts"]
+  "include": ["cypress/**/*.ts", "cypress/**/**/**/*.ts"]
 }
