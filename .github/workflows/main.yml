@@ -125,8 +125,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # - name: Install Allure Commandline
-      #   run: npm install -g allure-commandline
+      - name: Install Allure Commandline
+        run: npm install -g allure-commandline
 
       - name: Generate Allure Report
         run: npm run allure:report
