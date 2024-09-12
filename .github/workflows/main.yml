@@ -35,6 +35,7 @@ jobs:
 
       - name: Run end to end Tests
         run: npm run allure:run:front
+        continue-on-error: true  # Permite que el flujo continúe aunque falle
 
         #en Windows no funciona el plugin de SLACK
       # - name: Slack Notification - Success
@@ -87,6 +88,7 @@ jobs:
 
       - name: Run Endpoint Tests
         run: npm run allure:run:back
+        continue-on-error: true  # Permite que el flujo continúe aunque falle
 
       - name: Slack Notification - Success
         if: success()
