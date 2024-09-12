@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "lib": ["es6", "dom"],
-    "types": ["cypress", "node", "@shelex/cypress-allure-plugin"],
+    "types": ["cypress", "node"],
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,

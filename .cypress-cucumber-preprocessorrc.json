@@ -1,8 +1,8 @@
 {
     "json": {
-      "enabled": true,
+      "enabled": false,
       "output": "jsonlogs/log.json",
-      "formatter": "cucumber-json-formatter"
+      "formatter": "cucumber-json-formatter.exe"
     },
     "messages": {
       "enabled": false,
@@ -20,4 +20,3 @@
       "cypress\\e2e\\frontend\\step_definitions\\*.{js,ts}"
     ]
   }
-  

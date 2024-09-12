@@ -2,7 +2,7 @@ Feature: Test back API localhost
 
     Pruebas de api en localhost
 
-    @WebInterface @Authentication @Critical
+    # @WebInterface @Authentication @Critical
     Scenario: Validación del estado de la respuesta - UNO
         When el usuario realiza una solicitud GET a "/users"
         Then la respuesta debe tener un estado 200
@@ -23,7 +23,7 @@ Feature: Test back API localhost
         When el usuario realiza una solicitud GET a "/users/3"
         Then La respuesta debe tener los siguientes elementos "id" "name" "email" "status"
 
-    @Critical
+    # @Critical
     Scenario: validacion de la estrctura de la respuesta - DOS
         When el usuario realiza una solicitud GET a "/users/3"
         Then La respuesta debe tener los siguientes elementos "id" "name" "email" "status" otro metodo
@@ -36,7 +36,7 @@ Feature: Test back API localhost
         When el usuario realiza una solicitud GET a "/users/3"
         Then La respuesta debe tener los siguientes elementos y datos "3" "David Soto" "davidsoto@example.com" "active" otro metodo
 
-    @Authentication
+    # @Authentication
     Scenario: validacion de datos especificos de la respuesta - TRES
         When el usuario realiza una solicitud GET a "/users/3"
         Then La respuesta debe tener los siguientes elementos y datos "3" "David Soto" "davidsoto@example.com" "active" otro metodo tres
