@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install Chrome (Windows only)
+      - name: Install Chrome (Windows only) 
         if: runner.os == 'Windows'
         run: |
           Invoke-WebRequest -Uri https://dl.google.com/chrome/install/latest/chrome_installer.exe -OutFile chrome_installer.exe
