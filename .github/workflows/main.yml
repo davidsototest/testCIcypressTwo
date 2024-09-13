@@ -45,7 +45,7 @@ jobs:
 
       # Guardar los resultados de Allure como artefacto
       - name: Store Allure Results front
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report-front
           path: allure-report
@@ -112,7 +112,7 @@ jobs:
 
       # Guardar los resultados de Allure como artefacto
       - name: Store Allure Results back
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report-back
           path: allure-report
