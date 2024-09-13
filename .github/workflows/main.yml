@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: allure-report-front
-          path: allure-report-front
+          path: allure-report
 
         #en Windows no funciona el plugin de SLACK
       # - name: Slack Notification - Success
@@ -115,7 +115,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: allure-report-back
-          path: allure-report-back
+          path: allure-report
 
       - name: Slack Notification - Success
         if: success()
