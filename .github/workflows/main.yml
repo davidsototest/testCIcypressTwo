@@ -47,7 +47,7 @@ jobs:
       - name: Store Allure Results front
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report-front
+          name: allure-report-front-${{ matrix.os }}
           path: allure-report
 
         #en Windows no funciona el plugin de SLACK
