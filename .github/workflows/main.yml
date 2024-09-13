@@ -35,7 +35,7 @@ jobs:
 
       - name: Run end to end Tests
         run: npm run allure:run:front
-        continue-on-error: true  # Permite que el flujo continúe aunque falle
+        #continue-on-error: true  # Permite que el flujo continúe aunque falle
 
       - name: Install Allure Commandline
         run: npm install -g allure-commandline
@@ -44,7 +44,7 @@ jobs:
         run: npm run allure:report
 
       # Guardar los resultados de Allure como artefacto
-      - name: Store Allure Results
+      - name: Store Allure Results front
         uses: actions/upload-artifact@v3
         with:
           name: allure-report-front
@@ -101,7 +101,7 @@ jobs:
 
       - name: Run Endpoint Tests
         run: npm run allure:run:back
-        continue-on-error: true  # Permite que el flujo continúe aunque falle
+        #continue-on-error: true  # Permite que el flujo continúe aunque falle
        
         #instalar lineas de comando de allure
       - name: Install Allure Commandline
@@ -111,7 +111,7 @@ jobs:
         run: npm run allure:report
 
       # Guardar los resultados de Allure como artefacto
-      - name: Store Allure Results
+      - name: Store Allure Results back
         uses: actions/upload-artifact@v3
         with:
           name: allure-report-back
