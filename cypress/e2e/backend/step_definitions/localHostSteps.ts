@@ -95,7 +95,8 @@ Then("la respuesta debe tener un estado {int}", (statusCode: number) => {
 Then(
   "la respuesta debe tener un estado {int} otro metodo",
   (statusCode: number) => {
-    cy.request("@apiResponse").then((resp) => {
+    cy.get("@apiResponse").then((resp) => {
+      //@ts-ignore
       expect(resp.status).to.be.eq(statusCode);
     });
   }
@@ -104,7 +105,7 @@ Then(
 Then(
   "la respuesta debe tener un tipo de contenido {string}",
   (contenType: string) => {
-    cy.request("@apiResponse")
+    cy.get("@apiResponse")
       .its("headers")
       .its("content-type")
       .should("include", contenType);
@@ -114,7 +115,8 @@ Then(
 Then(
   "la respuesta debe tener un tipo de contenido, otro metodo {string}",
   (contenType: string) => {
-    cy.request("@apiResponse").then((resp) => {
+    cy.get("@apiResponse").then((resp) => {
+      //@ts-ignore
       expect(resp.headers["content-type"]).to.be.include(contenType);
     });
   }

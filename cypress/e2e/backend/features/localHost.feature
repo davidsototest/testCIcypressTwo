@@ -6,18 +6,18 @@ Feature: Test back API localhost
     Scenario: Validación del estado de la respuesta - UNO
         When el usuario realiza una solicitud GET a "/users"
         Then la respuesta debe tener un estado 200
-
+    
     Scenario: validacion del estado de la respuesta  - DOS
         When el usuario realiza una solicitud GET a "/users"
         Then la respuesta debe tener un estado 200 otro metodo
-
+    
     Scenario: validacion del tipo de contenido de la respuesta - UNO
         When el usuario realiza una solicitud GET a "/users"
-        Then la respuesta debe tener un tipo de contenido "text/html"
-
+        Then la respuesta debe tener un tipo de contenido "application/json"
+    
     Scenario: validacion del tipo de contenido de la respuesta - DOS
         When el usuario realiza una solicitud GET a "/users"
-        Then la respuesta debe tener un tipo de contenido, otro metodo "text/html"
+        Then la respuesta debe tener un tipo de contenido, otro metodo "application/json"
 
     Scenario: validacion de la estructura de la respuesta - UNO
         When el usuario realiza una solicitud GET a "/users/3"
