@@ -120,12 +120,13 @@ jobs:
       - name: Send results to Jira
         run: |
           curl -X POST \
+          --http1.1 \
           -H "Authorization: Basic $(echo -n ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_TOKEN }} | base64)" \
           -H "Content-Type: application/json" \
           --data '{
             "fields": {
               "project": {
-                "key": "TASK"  # clave del proyecto
+                "key": "TASK"
               },
               "summary": "Resultados de las pruebas automatizadas",
               "description": "Las pruebas se han completado. Los artefactos se han subido.",
